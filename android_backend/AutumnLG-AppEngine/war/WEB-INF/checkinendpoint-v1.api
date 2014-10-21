@@ -1,0 +1,226 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://astral-net-740.appspot.com/_ah/api",
+  "name" : "checkinendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://astral-net-740.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "taehee.com",
+  "ownerName" : "taehee.com",
+  "packagePath" : "autumnlg",
+  "methods" : {
+    "checkinendpoint.updateCheckIn" : {
+      "path" : "checkin",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.taehee.autumnlg.CheckInEndpoint.updateCheckIn",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "checkinendpoint.insertCheckIn" : {
+      "path" : "checkin",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.taehee.autumnlg.CheckInEndpoint.insertCheckIn",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "checkinendpoint.listCheckIn" : {
+      "path" : "checkin",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.taehee.autumnlg.CheckInEndpoint.listCheckIn",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "checkinendpoint.getCheckIn" : {
+      "path" : "checkin/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.taehee.autumnlg.CheckInEndpoint.getCheckIn",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "checkinendpoint.removeCheckIn" : {
+      "path" : "checkin/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.taehee.autumnlg.CheckInEndpoint.removeCheckIn",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "CheckIn" : {
+        "id" : "CheckIn",
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "$ref" : "Key"
+          },
+          "placeId" : {
+            "type" : "string"
+          },
+          "userEmail" : {
+            "type" : "string"
+          },
+          "checkinDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "CollectionResponse_CheckIn" : {
+        "id" : "CollectionResponse_CheckIn",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "CheckIn"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.taehee.autumnlg.CheckInEndpoint.updateCheckIn" : {
+        "request" : {
+          "$ref" : "CheckIn"
+        },
+        "response" : {
+          "$ref" : "CheckIn"
+        }
+      },
+      "com.taehee.autumnlg.CheckInEndpoint.insertCheckIn" : {
+        "request" : {
+          "$ref" : "CheckIn"
+        },
+        "response" : {
+          "$ref" : "CheckIn"
+        }
+      },
+      "com.taehee.autumnlg.CheckInEndpoint.listCheckIn" : {
+        "response" : {
+          "$ref" : "CollectionResponse_CheckIn"
+        }
+      },
+      "com.taehee.autumnlg.CheckInEndpoint.getCheckIn" : {
+        "response" : {
+          "$ref" : "CheckIn"
+        }
+      },
+      "com.taehee.autumnlg.CheckInEndpoint.removeCheckIn" : {
+      }
+    }
+  }
+}
