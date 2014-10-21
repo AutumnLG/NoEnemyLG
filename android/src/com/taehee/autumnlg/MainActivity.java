@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
-	 * navigation drawer.
+	 * navigation drawer.help
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 

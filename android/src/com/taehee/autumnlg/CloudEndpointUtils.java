@@ -21,7 +21,7 @@ import java.io.IOException;
  * 
  * See the documentation at
  * http://developers.google.com/eclipse/docs/cloud_endpoints for more
- * information.
+ * information.help
  */
 public class CloudEndpointUtils {
 
