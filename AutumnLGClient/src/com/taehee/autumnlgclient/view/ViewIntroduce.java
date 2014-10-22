@@ -1,10 +1,14 @@
-package com.taehee.autumnlgclient;
+package com.taehee.autumnlgclient.view;
+
+import com.taehee.autumnlgclient.R;
+import com.taehee.autumnlgclient.R.layout;
+import com.taehee.autumnlgclient.R.string;
 
 import android.app.Activity;
 
-public class Section2View extends SectionView {
+public class ViewIntroduce extends ViewBase {
 
-	public Section2View(Activity act) {
+	public ViewIntroduce(Activity act) {
 		super(act);
 	}
 
