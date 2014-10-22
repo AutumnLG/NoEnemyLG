@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
+	
+    <!-- AutumnLG -->
 	<servlet>
 		<servlet-name>AutumnLGServer</servlet-name>
 		<servlet-class>com.taehee.autumnlgserver.AutumnLGServerServlet</servlet-class>
@@ -12,6 +14,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AutumnLGServer</servlet-name>
 		<url-pattern>/autumnlgserver</url-pattern>
 	</servlet-mapping>
+	
+	<!-- NoEnemyLG -->
+	<servlet>
+		<servlet-name>NoEnemyLGServer</servlet-name>
+		<servlet-class>com.taehee.autumnlgserver.NoEnemyLGServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NoEnemyLGServer</servlet-name>
+		<url-pattern>/noenemylgserver</url-pattern>
+	</servlet-mapping>
+	
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
