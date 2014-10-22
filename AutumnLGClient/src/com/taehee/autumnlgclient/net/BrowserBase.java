@@ -1,9 +1,12 @@
 package com.taehee.autumnlgclient.net;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.message.BasicHeader;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -22,7 +25,6 @@ public abstract class BrowserBase {
 	protected Context mContext;
 	protected int statusCode = -1;
 	protected String statusString = null;
-	protected int requestCode = -1;
 	protected String requestPath = null;
 	protected boolean isUseHeader = true;
 	protected boolean isAccessToken = true;
@@ -46,24 +48,7 @@ public abstract class BrowserBase {
 	private static final String TAG = "BrowserData";
 
 	/**
-	 * 
-	 * @param mContext
-	 * @param requstType
-	 *            : int mRequestType Field로 존재
-	 * @param mBrowseListener
-	 */
-	public BrowserBase(Context mContext, int requestType, onRequestListener listener, boolean isHttpPost, boolean useAccessToken) {
-		super();
-		this.mContext = mContext;
-		this.requestCode = requestType;
-		this.listener = listener;
-		this.isHttpPost = isHttpPost;
-		this.isAccessToken = useAccessToken;
-		this.mode = BROWSER_MODE.JSON;
-	}
-
-	/**
-	 * 지정된 URI 가 아닌 경우 (ex. file download)
+	 * request path 로 생성
 	 * 
 	 * @param mContext
 	 * @param requestString
@@ -72,10 +57,10 @@ public abstract class BrowserBase {
 	 * @param isHttpPost
 	 * @param useAccessToken
 	 */
-	public BrowserBase(Context mContext, String fullPath, onRequestListener listener, boolean isHttpPost, boolean useAccessToken) {
+	public BrowserBase(Context mContext, String requestPath, onRequestListener listener, boolean isHttpPost, boolean useAccessToken) {
 		super();
 		this.mContext = mContext;
-		this.requestPath = fullPath;
+		this.requestPath = requestPath;
 		this.listener = listener;
 		this.isHttpPost = isHttpPost;
 		this.isAccessToken = useAccessToken;
@@ -92,14 +77,6 @@ public abstract class BrowserBase {
 
 	public Object getRequestKey() {
 		return this.requestKey;
-	}
-
-	public void setReqCode(int code) {
-		this.requestCode = code;
-	}
-
-	public int getReqCode() {
-		return this.requestCode;
 	}
 
 	public void setStatusCode(int code) {
@@ -171,20 +148,22 @@ public abstract class BrowserBase {
 		return this.mode;
 	}
 
-	// public Header[] getHeader() {
-	// List<Header> headers = new ArrayList<Header>();
-	// headers.add(new BasicHeader("app-agent",
-	// "platformCode=11;platformVer=4.2.1;deviceId=device#1;appName=wizzap;appVer=0.0.1;deviceModel=jmeter;networkType=WiFi;displayType=320|480"));
-	// headers.add(new BasicHeader("Akey", "gY24x9xhDi1N7Spq+P+AY2cB2Nc="));
-	// if (isAccessToken) {
-	// headers.add(new BasicHeader("access-token",
-	// "bc240446#fbeb#400f#8e94#2cb00247af70"));
-	// } else {
-	//
-	// }
-	// return headers.toArray(new Header[headers.size()]);
-	// }
-	abstract public Header[] getHeader();
+//	public Header[] getHeader() {
+//		List<Header> headers = new ArrayList<Header>();
+//		headers.add(new BasicHeader("Accept", "*/*"));
+//		headers.add(new BasicHeader("Connection", "keep-alive"));
+//		headers.add(new BasicHeader("Content-Type", "application/xml"));
+//		headers.add(new BasicHeader("app-agent", "platformCode=11;platformVer=4.2.1;deviceId=device#1;appName=wizzap;appVer=0.0.1;deviceModel=jmeter;networkType=WiFi;displayType=320|480"));
+//		headers.add(new BasicHeader("Akey", "gY24x9xhDi1N7Spq+P+AY2cB2Nc="));
+//		if (isAccessToken) {
+//			headers.add(new BasicHeader("access-token", "bc240446#fbeb#400f#8e94#2cb00247af70"));
+//		} else {
+//
+//		}
+//		return headers.toArray(new Header[headers.size()]);
+//	}
+
+	 abstract public Header[] getHeader();
 
 	// ///////////////////////////////////////////////////////////////////////////////////////
 

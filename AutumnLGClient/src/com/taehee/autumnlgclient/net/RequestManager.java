@@ -19,6 +19,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.barusoft.android.http.AsyncHttpClient;
 import com.barusoft.android.http.RequestHandle;
@@ -63,8 +64,10 @@ public class RequestManager {
 			// Network state check 는 activity 내부에서 처리 하는 방향 고려
 
 			if (data.isHttpPost) {
+				Log.i("taehee", "startRequest post");
 				return client.post(context, getFullPath(data), data.getHeader(), data.params, null, data.getJsonHandler());
 			} else {
+				Log.i("taehee", "startRequest get");
 				return client.get(context, getFullPath(data), data.getHeader(), data.params, data.getJsonHandler());
 			}
 		} else {
@@ -168,13 +171,8 @@ public class RequestManager {
 	}
 
 	public String getFullPath(BrowserBase data) {
-		String url;
-		if (data.requestCode == -1) {
-			url = data.requestPath;
-		} else {
-			url = NetworkConfig.URL + "/" + data.mContext.getString(data.requestCode);
-		}
-		return url;
+		Log.i("getFullPath", NetworkConfig.URL + "/" + data.requestPath);
+		return NetworkConfig.URL + "/" + data.requestPath;
 	}
 
 }
