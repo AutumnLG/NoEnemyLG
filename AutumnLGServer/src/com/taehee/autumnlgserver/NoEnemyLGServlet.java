@@ -15,6 +15,7 @@ public class NoEnemyLGServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		resp.setContentType("text/plain; charset=UTF-8");
 		resp.getWriter().println("무적엘지");
+		
 	}
 
 }
