@@ -2,24 +2,43 @@ package com.taehee.autumnlgserver;
 
 import java.io.IOException;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 @SuppressWarnings("serial")
 public class AutumnLGServerServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-
-		Entity e = new Entity("product", 10001);
-		e.setProperty("name", "silver ring");
-		e.setProperty("price", 1000);
-		ds.put(e);
-
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, world");
+//		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+//
+//		Entity e = new Entity("product", 10002);
+//		e.setProperty("name", "red ring");
+//		e.setProperty("price", 100);
+//		ds.put(e);
+		String name = req.getParameter("name");
+//		JSONObject obj = new JSONObject();
+//		try {
+//			obj.put("name", name);
+//			obj.put("status", "0");
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		ModelTemp modelTemp = new ModelTemp();
+		modelTemp.name = name;
+		modelTemp.status = "0";
+		ObjectMapper om = new ObjectMapper();
+		om.writeValue(resp.getWriter(), modelTemp);
+//		System.out.println("get name : " + name);
+//		resp.setContentType("text/plain");
+//		resp.getWriter().print(obj);
+//		resp.getWriter().flush();
+//		resp.getWriter().close();
 	}
 }
