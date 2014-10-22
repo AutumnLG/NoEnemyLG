@@ -21,7 +21,9 @@ public abstract class ViewBase {
 	public abstract String getTitle();
 
 	public View getView(LayoutInflater inflater, ViewGroup container) {
-		this.view = inflater.inflate(getLayoutId(), container, false);
+		if (this.view == null) {
+			this.view = inflater.inflate(getLayoutId(), container, false);	
+		}
 		return view;
 	}
 
