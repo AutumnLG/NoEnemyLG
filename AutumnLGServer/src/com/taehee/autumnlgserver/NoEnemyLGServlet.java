@@ -16,6 +16,10 @@ public class NoEnemyLGServlet extends HttpServlet {
 		resp.setContentType("text/plain; charset=UTF-8");
 		resp.getWriter().println("무적엘지");
 		
+		
+		
+		//하아....
+		
 	}
 
 }
