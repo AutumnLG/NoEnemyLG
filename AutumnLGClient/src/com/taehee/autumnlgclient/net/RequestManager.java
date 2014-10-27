@@ -34,8 +34,8 @@ public class RequestManager {
 	private RequestManager(Context applicationContext) {
 		this.applicationContext = applicationContext;
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), NetworkConfig.PORT));
-		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), NetworkConfig.PORT));
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), NetworkConfig.PORT_HTTP));
+		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), NetworkConfig.PORT_HTTPS));
 		client = new AsyncHttpClient(schemeRegistry);
 		client.setTimeout(NetworkConfig.TIMEOUT);
 		final HttpParams httpParams = client.getHttpClient().getParams();
