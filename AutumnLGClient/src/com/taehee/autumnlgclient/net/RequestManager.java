@@ -1,5 +1,6 @@
 package com.taehee.autumnlgclient.net;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +16,11 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.util.Log;
@@ -73,6 +77,25 @@ public class RequestManager {
 		} else {
 			data.setStatusCode(NetworkStatus.NO_RESPONSE); // Network Exception
 															// status;
+			data.getRequestListener().onRequestFail(data);
+			return null;
+		}
+	}
+
+	public synchronized RequestHandle startRequestEntity(Context context, BrowserBase data, String jsonString) {
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(jsonString, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (entity != null) {
+			entity.setContentType("application/json");
+			entity.setContentEncoding(HTTP.UTF_8);
+			return client.post(context, getFullPath(data), entity, "application/json", data.getJsonHandler());
+		} else {
+			data.setStatusCode(NetworkStatus.NO_RESPONSE); 
 			data.getRequestListener().onRequestFail(data);
 			return null;
 		}

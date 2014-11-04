@@ -1,27 +1,33 @@
 package com.taehee.autumnlgclient.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
-import com.taehee.autumnlgclient.ActGoodsDetail;
-import com.taehee.autumnlgclient.R;
-import com.taehee.autumnlgclient.R.id;
-import com.taehee.autumnlgclient.R.layout;
-import com.taehee.autumnlgclient.R.string;
-import com.taehee.autumnlgclient.model.ModelGoods;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ViewGoods extends ViewBase {
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taehee.autumnlgclient.ActGoodsDetail;
+import com.taehee.autumnlgclient.R;
+import com.taehee.autumnlgclient.model.ModelGoods;
+import com.taehee.autumnlgclient.model.ModelGoodsList;
+import com.taehee.autumnlgclient.net.BrowserBase;
+import com.taehee.autumnlgclient.net.BrowserData;
+import com.taehee.autumnlgclient.net.RequestManager;
+import com.taehee.autumnlgclient.net.onRequestListener;
 
-	private ArrayList<ModelGoods> list = new ArrayList<>();
-	private ArrayList<ModelGoods> searchList = new ArrayList<>();
+public class ViewGoods extends ViewBase implements onRequestListener {
+
+	private ArrayList<ModelGoods> list = new ArrayList<ModelGoods>();
+	private ArrayList<ModelGoods> searchList = new ArrayList<ModelGoods>();
 
 	private Adapter adapter;
 
@@ -36,17 +42,12 @@ public class ViewGoods extends ViewBase {
 
 	@Override
 	public void onActivityCreated() {
-		Random rand = new Random();
-		for (int i = 0; i < 60; i++) {
-			ModelGoods item = new ModelGoods();
-			item.code = String.valueOf(rand.nextInt(10000));
-			item.name = "반지 " + rand.nextInt(10000);
-			list.add(item);
-		}
-		this.searchList.addAll(list);
+		
 		ListView listView = (ListView) view.findViewById(R.id.listView1);
 		this.adapter = new Adapter();
 		listView.setAdapter(adapter);
+		
+		startRequestGoods();
 
 	}
 
@@ -65,6 +66,11 @@ public class ViewGoods extends ViewBase {
 			}
 		}
 		this.adapter.notifyDataSetChanged();
+	}
+	
+	private void startRequestGoods() {
+		BrowserData data = new BrowserData(act, "autumnlgserver", this, false, false);
+		RequestManager.Instance(act).startRequest(act, data);
 	}
 
 	private class Adapter extends BaseAdapter {
@@ -89,6 +95,7 @@ public class ViewGoods extends ViewBase {
 			convertView = act.getLayoutInflater().inflate(R.layout.item_listview, null);
 			((TextView) convertView.findViewById(R.id.item_listview_tv_code)).setText(searchList.get(position).code);
 			((TextView) convertView.findViewById(R.id.item_listview_tv_name)).setText(searchList.get(position).name);
+			((TextView) convertView.findViewById(R.id.item_listview_tv_cost)).setText(searchList.get(position).price);
 
 			convertView.setOnClickListener(new View.OnClickListener() {
 
@@ -100,5 +107,55 @@ public class ViewGoods extends ViewBase {
 			return convertView;
 		}
 
+	}
+
+	@Override
+	public void onRequestStart(BrowserBase data) {
+		Log.i("taehee", "onRequestStart");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onRequestSuccess(BrowserBase data) {
+		Log.i("taehee", "onRequestSuccess");
+		if (data != null) {
+			try {
+				ModelGoodsList modelGoodsList = new ObjectMapper().readValue(data.getJsonObject().toString(), ModelGoodsList.class);
+				if (modelGoodsList != null) {
+					this.list = (ArrayList<ModelGoods>) modelGoodsList.modelGoods.clone();
+					this.searchList = (ArrayList<ModelGoods>) modelGoodsList.modelGoods.clone();
+					this.adapter.notifyDataSetChanged();
+				}
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void onRequestFail(BrowserBase data) {
+		Log.i("taehee", "onRequestFail");
+	}
+
+	@Override
+	public void onRequestFinish(BrowserBase data) {
+		Log.i("taehee", "onRequestFinish");
+	}
+
+	@Override
+	public void onRequestCancel(BrowserBase data) {
+		Log.i("taehee", "onRequestCancel");
+	}
+
+	@Override
+	public void onRequestProgress(BrowserBase data, int bytesWritten, int totalSize) {
+		Log.i("taehee", "onRequestProgress");
 	}
 }

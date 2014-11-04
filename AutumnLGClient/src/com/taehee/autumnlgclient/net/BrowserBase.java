@@ -233,10 +233,7 @@ public abstract class BrowserBase {
 				if (BrowserBase.this.statusCode != NetworkStatus.SUCCESS && listener != null) {
 					listener.onRequestFail(BrowserBase.this);
 				} else {
-					jsonObject = response.optJSONObject("data");
-					if (jsonObject == null) {
-						jsonObject = response;
-					}
+					jsonObject = response;
 					if (listener != null) {
 						listener.onRequestSuccess(BrowserBase.this);
 					}
