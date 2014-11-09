@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taehee.autumnlgclient.R;
 import com.taehee.autumnlgclient.model.ModelGem;
 import com.taehee.autumnlgclient.model.ModelGemList;
+import com.taehee.autumnlgclient.model.ModelGoods;
+import com.taehee.autumnlgclient.model.ModelGoodsList;
 import com.taehee.autumnlgclient.net.BrowserBase;
 import com.taehee.autumnlgclient.net.BrowserData;
 import com.taehee.autumnlgclient.net.RequestManager;
@@ -50,8 +52,8 @@ public class ViewIntroduce extends ViewBase implements OnClickListener, onReques
 	@Override
 	public void onClick(View v) {
 		//클릭 막아둠..
-		Toast.makeText(act, "클릭 막아둠..", Toast.LENGTH_LONG).show();
-//		new ExcelAsyncTask().execute();
+//		Toast.makeText(act, "클릭 막아둠..", Toast.LENGTH_LONG).show();
+		new ExcelAsyncTask().execute();
 	}
 
 	@Override
@@ -81,29 +83,27 @@ public class ViewIntroduce extends ViewBase implements OnClickListener, onReques
 	public void onRequestProgress(BrowserBase data, int bytesWritten, int totalSize) {
 	}
 
-	private class ExcelAsyncTask extends AsyncTask<Void, Void, ModelGemList> {
+	private class ExcelAsyncTask extends AsyncTask<Void, Void, ModelGoodsList> {
 
 		@Override
-		protected ModelGemList doInBackground(Void... params) {
-			ModelGemList modelGemList = new ModelGemList();
+		protected ModelGoodsList doInBackground(Void... params) {
+			ModelGoodsList modelGoodsList = new ModelGoodsList();
 			try {
-				modelGemList.gemItems = new ArrayList<ModelGem>();
+				modelGoodsList.modelGoods = new ArrayList<ModelGoods>();
 
 				Workbook workbook = Workbook.getWorkbook(act.getAssets().open("testexcel.xls"));
 				Sheet sheet = workbook.getSheet(2);
-				for (int i = 2; i < sheet.getRows(); i++) {
-					ModelGem modelGem = new ModelGem();
-					modelGem.code = sheet.getCell(0, i).getContents();
-					modelGem.cut = sheet.getCell(1, i).getContents();
-					modelGem.gemType = sheet.getCell(2, i).getContents();
-					modelGem.width = sheet.getCell(3, i).getContents();
-					modelGem.height = sheet.getCell(4, i).getContents();
-					modelGem.gemPrice = sheet.getCell(5, i).getContents();
-					modelGem.weight = sheet.getCell(6, i).getContents();
-					modelGem.purchasePrice = sheet.getCell(7, i).getContents();
-					modelGem.changeDate = sheet.getCell(8, i).getContents();
-
-					modelGemList.gemItems.add(modelGem);
+				for (int i = 1; i < sheet.getRows(); i++) {
+					
+					ModelGoods modelGoods = new ModelGoods();
+					modelGoods.code = sheet.getCell(0, i).getContents();
+					modelGoods.price = sheet.getCell(1, i).getContents();
+					modelGoods.basicPrice = sheet.getCell(2, i).getContents();
+					modelGoods.weight = sheet.getCell(3, i).getContents();
+					modelGoods.cubic = sheet.getCell(4, i).getContents();
+					modelGoods.etc = sheet.getCell(5, i).getContents();
+					
+					modelGoodsList.modelGoods.add(modelGoods);
 				}
 
 			} catch (BiffException e) {
@@ -111,11 +111,11 @@ public class ViewIntroduce extends ViewBase implements OnClickListener, onReques
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return modelGemList;
+			return modelGoodsList;
 		}
 
 		@Override
-		protected void onPostExecute(ModelGemList result) {
+		protected void onPostExecute(ModelGoodsList result) {
 			super.onPostExecute(result);
 			String json;
 			try {
