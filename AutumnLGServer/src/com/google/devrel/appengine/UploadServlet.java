@@ -52,6 +52,7 @@ public class UploadServlet extends HttpServlet {
 		// prefer this method over getBlobInfos() or getUploads()
 		// when uploading to GCS
 		Map<String, List<FileInfo>> uploads = blobstore.getFileInfos(req);
+		
 		List<FileInfo> fileInfos = uploads.get("files");
 		
 		if (fileInfos == null || fileInfos.size() == 0) {

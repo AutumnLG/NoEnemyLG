@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 @SuppressWarnings("serial")
 public class ChampLGServerServlet extends HttpServlet {
@@ -33,16 +35,13 @@ public class ChampLGServerServlet extends HttpServlet {
 				jb.append(line);
 		} catch (Exception e) { /* report an error */
 		}
-
+		
 		ModelGemList mList = new ObjectMapper().readValue(jb.toString(), ModelGemList.class);
 	
-
 		mList.gemItems = new ArrayList<ModelGem>();
 		
 		for(ModelGem gem : mList.gemItems)
 		{
-			
-			
 			Entity e = new Entity("gem",gem.code);
 			e.setProperty("cut", gem.cut);
 			e.setProperty("gemType", gem.gemType);
@@ -54,16 +53,22 @@ public class ChampLGServerServlet extends HttpServlet {
 			e.setProperty("changeDate", gem.changeDate);
 			
 			ds.put(e);
-				
 		}
 		
+		resp.setStatus(HttpServletResponse.SC_OK);
+		
+		ModelBase mReturn = new ModelBase();
+		mReturn.status = ""+1;
+		
+		ObjectMapper om = new ObjectMapper();
+		om.writeValue(resp.getWriter(), mReturn);
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		resp.getWriter().println("무13엘지");
+		resp.getWriter().println("무17엘지");
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.api.datastore.Query;
 
 
 
@@ -29,6 +30,9 @@ public class AutumnLGServerServlet extends HttpServlet {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
+		
+		Query q = new Query("gem");
 		
 		ModelTemp modelTemp = new ModelTemp();
 		modelTemp.name = name;
