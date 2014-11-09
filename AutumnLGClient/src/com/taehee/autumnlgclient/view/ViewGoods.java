@@ -94,7 +94,7 @@ public class ViewGoods extends ViewBase implements onRequestListener {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			convertView = act.getLayoutInflater().inflate(R.layout.item_listview, null);
 			((TextView) convertView.findViewById(R.id.item_listview_tv_code)).setText(searchList.get(position).code);
-			((TextView) convertView.findViewById(R.id.item_listview_tv_name)).setText(searchList.get(position).name);
+//			((TextView) convertView.findViewById(R.id.item_listview_tv_name)).setText(searchList.get(position).name);
 			((TextView) convertView.findViewById(R.id.item_listview_tv_cost)).setText(searchList.get(position).price);
 
 			convertView.setOnClickListener(new View.OnClickListener() {

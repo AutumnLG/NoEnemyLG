@@ -26,7 +26,7 @@ public class ActGoodsDetail extends Activity {
 		ModelGoods modelGoods = (ModelGoods) getIntent().getSerializableExtra(EXTRA_MODELGOODS);
 		
 		((TextView)findViewById(R.id.activity_detail_tv_code)).setText(modelGoods.code);
-		((TextView)findViewById(R.id.activity_detail_tv_name)).setText(modelGoods.name);
+//		((TextView)findViewById(R.id.activity_detail_tv_name)).setText(modelGoods.name);
 		((TextView)findViewById(R.id.activity_detail_tv_price)).setText(modelGoods.price);
 		
 	}
