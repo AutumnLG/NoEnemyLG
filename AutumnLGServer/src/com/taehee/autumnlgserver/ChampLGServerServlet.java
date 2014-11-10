@@ -2,7 +2,6 @@ package com.taehee.autumnlgserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,8 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.taehee.autumnlgserver.model.ModelGoods;
+import com.taehee.autumnlgserver.model.ModelGoodsList;
 
 @SuppressWarnings("serial")
 public class ChampLGServerServlet extends HttpServlet {
@@ -36,29 +35,35 @@ public class ChampLGServerServlet extends HttpServlet {
 		} catch (Exception e) { /* report an error */
 		}
 		
-		ModelGemList mList = new ObjectMapper().readValue(jb.toString(), ModelGemList.class);
-	
-		mList.gemItems = new ArrayList<ModelGem>();
 		
-		for(ModelGem gem : mList.gemItems)
+		ModelGoodsList mList = new ObjectMapper().readValue(jb.toString(), ModelGoodsList.class);
+
+//		mList.modelGoods = new ArrayList<ModelGoods>();
+		
+		for(ModelGoods goods : mList.modelGoods)
 		{
-			Entity e = new Entity("gem",gem.code);
-			e.setProperty("cut", gem.cut);
-			e.setProperty("gemType", gem.gemType);
-			e.setProperty("width", gem.width);
-			e.setProperty("height", gem.height);
-			e.setProperty("gemPrice", gem.gemPrice);
-			e.setProperty("weight", gem.weight);
-			e.setProperty("purchasePrice", gem.purchasePrice);
-			e.setProperty("changeDate", gem.changeDate);
 			
+			
+			Entity e = new Entity("ModelGoods",goods.code);
+			e.setProperty("예상 공임", goods.price);
+			e.setProperty("기본 공임", goods.basicPrice);
+			e.setProperty("중량", goods.weight);
+			e.setProperty("큐통", goods.cubic);
+			e.setProperty("2", goods.etc);
+			
+//			e.setProperty("price", goods.price);
+//			e.setProperty("basicPrice", goods.basicPrice);
+//			e.setProperty("weight", goods.weight);
+//			e.setProperty("cubic", goods.cubic);
+////			e.setProperty("etc", goods.etc);
+//			
 			ds.put(e);
 		}
 		
 		resp.setStatus(HttpServletResponse.SC_OK);
 		
 		ModelBase mReturn = new ModelBase();
-		mReturn.status = ""+1;
+		mReturn.status = ""+mList.modelGoods.size();
 		
 		ObjectMapper om = new ObjectMapper();
 		om.writeValue(resp.getWriter(), mReturn);
@@ -68,7 +73,7 @@ public class ChampLGServerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		resp.getWriter().println("무17엘지");
+		resp.getWriter().println("무15엘지");
 	}
 
 }
